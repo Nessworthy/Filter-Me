@@ -12,6 +12,7 @@
  */
 (function ($) {
     "use strict";
+    
 	$.fn.filterMe = function (args) {
 
 		// Setup base options.
@@ -146,10 +147,28 @@
 				}
 			};
 		
+		/**
+		 * Takes an element and uses the prefix option to retrieve it's filter name.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} element An object node or a jquery object of a node.
+		 * @return {string} The filter name from the object.
+		 */
 		function get_filter_name_from_dom(element) {
 			return $(element).attr(options.prefix);
 		}
-		
+
+		/**
+		 * Retrieves the filter type from a given element.
+		 * Uses options to revert to a default value if none exists.
+		 * 
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} element An object node or a jquery object of a node.
+		 * @return {string} The calculated filter type.
+		 */
 		function get_filter_type_from_dom(element) {
 			
 			var base_type = $(element).attr(options.filter_type),
@@ -177,6 +196,14 @@
 			
 		}
 		
+		/**
+		 * Retrieves the filter's value from a given element.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} element An object node or a jquery object of a node.
+		 * @return {string} The current value of the filter.
+		 */
 		function get_filter_value_from_dom(element) {
 			
 			var base_value = $(element).val();
@@ -188,14 +215,41 @@
 			return base_value;
 		}
 		
+		/**
+		 * Retrieves the filter's type from the internal filter object.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} object the internal filter object.
+		 * @return {string} The object's filter type.
+		 */
 		function get_filter_type_from_obj(object) {
 			return object[internal_options.active_filter_keys.filter_type];
 		}
-		
+
+		/**
+		 * Retrieves the filter's value from the internal filter object.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} object the internal filter object.
+		 * @return {string} The object's filter value.
+		 */
 		function get_filter_value_from_obj(object) {
 			return object[internal_options.active_filter_keys.filter_value];
 		}
-		
+
+		/**
+		 * Updates the given filter object by applying the new filter to it.
+		 * In the case where multi-options is disabled, this will replace the previous filter.
+		 * Fires the filter_callback function.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} current_filters The internal object containing the currently active filters.
+		 * @param {object} filter_element_to_apply The HTML node or jQuery object which defines the filter in the DOM.
+		 * @return {string} The object's filter type.
+		 */
 		function update_filter(current_filters, filter_element_to_apply) {
 
 			var filter_name = get_filter_name_from_dom(filter_element_to_apply),
@@ -233,6 +287,15 @@
 			return new_filters;
 		}
 		
+		/**
+		 * Returns all filterable elements based on the currently active filters.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} base The base HTML node or jQuery object that the plugin was instantiated on.
+		 * @param {object} active_filters The internal active_filters object.
+		 * @return {object} A jQuery object containing the list of node elements available for filtering.
+		 */
 		function get_elements_to_filter(base, active_filters) {
 			
 			var elements,
@@ -245,7 +308,14 @@
 			return $(base).find(query.join(', '));
 		}
 		
-		// Core function
+		/**
+		 * The core function which calculates which elements match the active filters, and which do not.
+		 * 
+		 * @since 0.3 (Guinea Pig)
+		 * 
+		 * @param {object} base The base HTML node or jQuery object that the plugin was instantiated on.
+		 * @param {object} active_filters The internal active_filters object.
+		 */
 		function filter_elements(base, active_filters) {
 
 			// Restructure the function to either operate on one filter at a time, or all passed filters. Latter would be easier.
@@ -381,5 +451,41 @@
 		return this;
 		
 	};
+	
+	// filterMe Extension Kit.
+	// P.s. We're using CamelCase here for the public methods to follow suit with jQuery. Will convert it all at some point.
+	$.extend({
+		/**
+		 * Provides an easy-to-use API to extend on (+|/) interact with filterMe.
+		 * 
+		 * @since 0.4 (Beaver)
+		 * 
+		 * @param {string} action The action you want to perform. Check the documentation for a list of actions.
+		 * @param {mixed} options Any additional options the action requires. Check the documentation for more info.
+		 * @return {mixed} The return value based on the action performed. Check the documentation for a list.
+		 */
+    	filterMe : function (action, options) {
+    		
+    		actions = {
+    			/**
+    			 * addFilter - Adds a filter to the filterMe library.
+    			 * 
+    			 * @since 0.4 (Beaver)
+    			 * 
+    			 * @param {object} options The object which handles the filter. Check the documentation for more info.
+    			 */
+    			addFilter : function(options) {
+    				
+    			}
+    		}
+    		
+    		
+    		// Basic execution. Look in the list of actions.
+    		if(typeof this.actions[action] === 'function') {
+    			this.actions[action](options);
+    		}
+    		
+    	}	
+    });
 	
 }(jQuery));
