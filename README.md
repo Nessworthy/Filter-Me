@@ -10,7 +10,7 @@ e.g. `$('#filter-area').filterMe(options);`
 ### Example
 
     $('#filter-area').filterMe({
-    	'results_callback' : function(matched, unmatched, all, filters) {
+    	'resultsCallback' : function(matched, unmatched, all, filters) {
     		$(unmatched).stop().fadeOut();
     		$(matched).stop().fadeIn();
     	}
@@ -36,9 +36,9 @@ Due to the early stages of this library, there are only two filter types availab
 
 ###0.3 Guinea Pig `stable`
 * Filter code rewritten for performance and usability.
-* Added filter_callback - Fired when the filter is updated.
-* `options.callback` changed to `options.results_callback`, see above for the new arguments it is supplied.
-* Added `options.partial_match_flag`, allowing users to define the regex flags for partial matching.
+* Added filterCallback - Fired when the filter is updated.
+* `options.callback` changed to `options.resultsCallback`, see above for the new arguments it is supplied.
+* Added `options.partialMatchFlag`, allowing users to define the regex flags for partial matching.
 
 ###0.2 Hamster `stable`
 * Filter types options - Can now specify whether the input to check for is a partial or exact match using filter type attribute.

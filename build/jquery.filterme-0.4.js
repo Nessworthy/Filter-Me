@@ -29,17 +29,17 @@
 			'prefix' : 'data-filter-prefix',
 			
 			/**
-			 * target_prefix (string): The attribute PREFIX used on all elements desired to be filtered. 
+			 * targetPrefix (string): The attribute PREFIX used on all elements desired to be filtered. 
 			 * 
 			 * The filter's name should be APPENDED on to the end of this in your HTML.
 			 * 
 			 * e.g. 'data-filter'
 			 * <div class="item" data-filter-myfilter="..."> ... </div>
 			 */
-			'target_prefix' : 'data-filter-',
+			'targetPrefix' : 'data-filter-',
 			
 			/**
-			 * value_separator (string): The delimiter used to separate multiple values for one element's filter.
+			 * valueSeparator (string): The delimiter used to separate multiple values for one element's filter.
 			 * 
 			 * For filters where multiple values are needed (e.g. tags, categories, etc.), you may separate each value
 			 * with the given separator.
@@ -47,10 +47,10 @@
 			 * e.g. ','
 			 * <article data-filter-myfilter="sports,running,sprint"> ... </article>
 			 */
-			'value_separator' : ',',
+			'valueSeparator' : ',',
 			
 			/**
-			 * multi_filter (boolean): Determines whether multiple filters affect the matched results.
+			 * multiFilter (boolean): Determines whether multiple filters affect the matched results.
 			 * 
 			 * For filterMe instances which use multiple filters (e.g. by date AND/OR by category). If set to true,
 			 * elements will only be considered as 'matched' if they meet all requirements of every active filter.
@@ -66,49 +66,49 @@
 			 * 
 			 * e.g. true
 			 */
-			'multi_filter' : true,
+			'multiFilter' : true,
 			
 			/**
-			 * check_on_start (boolean): Checks the value of all filters on instantiate if set to true.
+			 * checkOnStart (boolean): Checks the value of all filters on instantiate if set to true.
 			 * 
 			 * This allows you to have predefined values in your filter inputs, which will become active as soon as .filterMe() is called.
 			 * As of current, this runs the filter callback once per filter found, and then runs the results callback on completion.
 			 * 
 			 * e.g. true
 			 */
-			'check_on_start' : true,
+			'checkOnStart' : true,
 			
 			/**
-			 * filter_type (string): The attribute used on the filter input to select the type of filter to use.
+			 * filterType (string): The attribute used on the filter input to select the type of filter to use.
 			 * 
-			 * This is an optional attribute. If not used, the filter will use the filter type defined in 'default_filter_type'.
+			 * This is an optional attribute. If not used, the filter will use the filter type defined in 'defaultFilterType'.
 			 * See the 'filter types' section to see the list of available filter types on offer by default.
 			 * 
 			 * e.g. true
 			 * <input type="text" value="running" data-filter-type="partial" data-filter-prefix="myfilter" />
 			 */
-			'filter_type' : 'data-filter-type',
+			'filterType' : 'data-filter-type',
 			
 			/**
-			 * default_filter_type (string): The default filter type to use if no filter type is explicitly given for a filter.
+			 * defaultFilterType (string): The default filter type to use if no filter type is explicitly given for a filter.
 			 * 
 			 * See the 'filter types' section to see the list of available filter types on offer by default.
 			 * 
 			 * e.g. 'exact'
 			 */
-			'default_filter_type' : 'exact',
+			'defaultFilterType' : 'exact',
 			
 			/**
-			 * partial_match_flags (string): The regex flags used to compare values with the 'partial' filter type.
+			 * partialMatchFlags (string): The regex flags used to compare values with the 'partial' filter type.
 			 * 
 			 * There's plans in the future to restructure filter types. As such, this probably won't be staying here for long.
 			 * 
 			 * e.g. 'i' ('i' makes the input match both uppercase and lowercase values)
 			 */
-			'partial_match_flags' : 'i',
+			'partialMatchFlags' : 'i',
 			
 			/**
-			 * results_callback (function): The callback function fired after all filters have been applied.
+			 * resultsCallback (function): The callback function fired after all filters have been applied.
 			 * 
 			 * The function is supplied four arguments: All MATCHED elements, all UNMATCHED elements, all FOUND elements, and all active filters.
 			 * This is the prawns to your salad. You need to define a function here or filterMe is pretty much useless.
@@ -116,34 +116,34 @@
 			 * Either a filtered element is matched or unmatched. For either, it will appear in all found elements.
 			 * Please take into account that this function is irrespective of any other states that those elements are in e.g. animation.
 			 * 
-			 * e.g. function (filter_matched_elements, filter_unmatched_elements, filter_all_elements, active_filters) { ... }
+			 * e.g. function (filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters) { ... }
 			 */
-			'results_callback' : function (filter_matched_elements, filter_unmatched_elements, filter_all_elements, active_filters) {},
+			'resultsCallback' : function (filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters) {},
 			
 			/**
-			 * filter_callback' (function): The callback function fired after the filters have been updated.
+			 * filterCallback' (function): The callback function fired after the filters have been updated.
 			 * 
 			 * The function is supplied three arguments: The triggered filter name, the active filters BEFORE the filter was applied, the final active filters object.
 			 * If multi-filters is disabled, this will still return the last filter used.
 			 * 
-			 * e.g. function (new_filter_name, old_filters, new_filters) { ... }
+			 * e.g. function (newFilterName, oldFilters, newFilters) { ... }
 			 */
-			'filter_callback' : function (new_filter_name, old_filters, new_filters) {}
+			'filterCallback' : function (newFilterName, oldFilters, newFilters) {}
 		}, args),
 			/**
 			 * Internal options do not really have any use outside of the plugin's inner workings (duh).
 			 * 
-			 * Some do, though. For example, you can change the reference alias of a filter type by changing it's value in filter_types.
+			 * Some do, though. For example, you can change the reference alias of a filter type by changing it's value in filterTypes.
 			 * If you change the key though, be prepared for things to break.
 			 */
-			internal_options = {
-				filter_types : {	// Key : setting.
+			internalOptions = {
+				filterTypes : {	// Key : setting.
 					'exact' : 'exact',
 					'partial' : 'partial'
 				},
-				active_filter_keys : { // Mainly for reference only. Just as long as these keys remain unique to one another.
-					'filter_value' : 'value',
-					'filter_type' : 'type'
+				activeFilterKeys : { // Mainly for reference only. Just as long as these keys remain unique to one another.
+					'filterValue' : 'value',
+					'filterType' : 'type'
 				}
 			};
 		
@@ -155,7 +155,7 @@
 		 * @param {object} element An object node or a jquery object of a node.
 		 * @return {string} The filter name from the object.
 		 */
-		function get_filter_name_from_dom(element) {
+		function getFilterNameFromDom(element) {
 			return $(element).attr(options.prefix);
 		}
 
@@ -169,30 +169,30 @@
 		 * @param {object} element An object node or a jquery object of a node.
 		 * @return {string} The calculated filter type.
 		 */
-		function get_filter_type_from_dom(element) {
+		function getFilterTypeFromDom(element) {
 			
-			var base_type = $(element).attr(options.filter_type),
-				use_default_filter = false,
-				calculated_filter_type;
+			var baseType = $(element).attr(options.filterType),
+				useDefaultFilter = false,
+				calculatedFilterType;
 				
 			// Check if the filter type value is legit. If not, revert to default.
-			if (!!base_type && !!base_type.length) {
-				base_type = internal_options.filter_types[base_type];
+			if (!!baseType && !!baseType.length) {
+				baseType = internalOptions.filterTypes[baseType];
 				// Filter types.
-				if (!base_type.length) {
-					use_default_filter = true;
+				if (!baseType.length) {
+					useDefaultFilter = true;
 				}
 			} else {
-				use_default_filter = true;
+				useDefaultFilter = true;
 			}
 					
-			if (use_default_filter === true) {
-				calculated_filter_type = internal_options.filter_types[options.default_filter_type];
+			if (useDefaultFilter === true) {
+				calculatedFilterType = internalOptions.filterTypes[options.defaultFilterType];
 			} else {
-				calculated_filter_type = base_type;
+				calculatedFilterType = baseType;
 			}
 			
-			return calculated_filter_type;
+			return calculatedFilterType;
 			
 		}
 		
@@ -204,15 +204,15 @@
 		 * @param {object} element An object node or a jquery object of a node.
 		 * @return {string} The current value of the filter.
 		 */
-		function get_filter_value_from_dom(element) {
+		function getFilterValueFromDom(element) {
 			
-			var base_value = $(element).val();
+			var baseValue = $(element).val();
 			
-			if (!base_value.length) {
-				base_value = null;
+			if (!baseValue.length) {
+				baseValue = null;
 			}
 			
-			return base_value;
+			return baseValue;
 		}
 		
 		/**
@@ -223,8 +223,8 @@
 		 * @param {object} object the internal filter object.
 		 * @return {string} The object's filter type.
 		 */
-		function get_filter_type_from_obj(object) {
-			return object[internal_options.active_filter_keys.filter_type];
+		function getFilterTypeFromObj(object) {
+			return object[internalOptions.activeFilterKeys.filterType];
 		}
 
 		/**
@@ -235,56 +235,56 @@
 		 * @param {object} object the internal filter object.
 		 * @return {string} The object's filter value.
 		 */
-		function get_filter_value_from_obj(object) {
-			return object[internal_options.active_filter_keys.filter_value];
+		function getFilterValueFromObj(object) {
+			return object[internalOptions.activeFilterKeys.filterValue];
 		}
 
 		/**
 		 * Updates the given filter object by applying the new filter to it.
 		 * In the case where multi-options is disabled, this will replace the previous filter.
-		 * Fires the filter_callback function.
+		 * Fires the filterCallback function.
 		 * 
 		 * @since 0.3 (Guinea Pig)
 		 * 
-		 * @param {object} current_filters The internal object containing the currently active filters.
-		 * @param {object} filter_element_to_apply The HTML node or jQuery object which defines the filter in the DOM.
+		 * @param {object} currentFilters The internal object containing the currently active filters.
+		 * @param {object} filterElementToApply The HTML node or jQuery object which defines the filter in the DOM.
 		 * @return {string} The object's filter type.
 		 */
-		function update_filter(current_filters, filter_element_to_apply) {
+		function updateFilter(currentFilters, filterElementToApply) {
 
-			var filter_name = get_filter_name_from_dom(filter_element_to_apply),
-				filter_value = get_filter_value_from_dom(filter_element_to_apply),
-				filter_type = get_filter_type_from_dom(filter_element_to_apply),
-				new_filters;
+			var filterName = getFilterNameFromDom(filterElementToApply),
+				filterValue = getFilterValueFromDom(filterElementToApply),
+				filterType = getFilterTypeFromDom(filterElementToApply),
+				newFilters;
 
 			// First, does the filter exist?
-			if (!!current_filters[filter_name]) {
+			if (!!currentFilters[filterName]) {
 				// If it does, has it changed?
-				if (get_filter_value_from_obj(current_filters[filter_name]) === filter_value && get_filter_type_from_obj(current_filters[filter_name]) === filter_type) {
+				if (getFilterValueFromObj(currentFilters[filterName]) === filterValue && getFilterTypeFromObj(currentFilters[filterName]) === filterType) {
 					// Well then, there's no real need to update the filter then, is there?
-					return current_filters;
+					return currentFilters;
 				}
 			}
 
 			// Okay. Are we checking for mutli-filters?
 			// If we aren't we really don't need to care about the previous filter.
-			if (options.multi_filter === true) {
-				new_filters = current_filters;
+			if (options.multiFilter === true) {
+				newFilters = currentFilters;
 			} else {
-				new_filters = {};
+				newFilters = {};
 			}
 			
 			// If we're still here, reset/register the filter.
-			new_filters[filter_name] = {};
+			newFilters[filterName] = {};
 
 			// TODO: Needs toning down.
-			new_filters[filter_name][internal_options.active_filter_keys.filter_value] = filter_value;
-			new_filters[filter_name][internal_options.active_filter_keys.filter_type] = filter_type;
+			newFilters[filterName][internalOptions.activeFilterKeys.filterValue] = filterValue;
+			newFilters[filterName][internalOptions.activeFilterKeys.filterType] = filterType;
 
 			// Trigger callback
-			options.filter_callback(filter_element_to_apply, current_filters, new_filters);
+			options.filterCallback(filterElementToApply, currentFilters, newFilters);
 
-			return new_filters;
+			return newFilters;
 		}
 		
 		/**
@@ -293,16 +293,16 @@
 		 * @since 0.3 (Guinea Pig)
 		 * 
 		 * @param {object} base The base HTML node or jQuery object that the plugin was instantiated on.
-		 * @param {object} active_filters The internal active_filters object.
+		 * @param {object} activeFilters The internal activeFilters object.
 		 * @return {object} A jQuery object containing the list of node elements available for filtering.
 		 */
-		function get_elements_to_filter(base, active_filters) {
+		function getElementsToFilter(base, activeFilters) {
 			
 			var elements,
 				query = [];
 			
-			$.each(active_filters, function (filter_name, filter_object) {
-				query.push('[' + options.target_prefix + filter_name + ']');
+			$.each(activeFilters, function (filterName, filterObject) {
+				query.push('[' + options.targetPrefix + filterName + ']');
 			});
 
 			return $(base).find(query.join(', '));
@@ -314,57 +314,57 @@
 		 * @since 0.3 (Guinea Pig)
 		 * 
 		 * @param {object} base The base HTML node or jQuery object that the plugin was instantiated on.
-		 * @param {object} active_filters The internal active_filters object.
+		 * @param {object} activeFilters The internal activeFilters object.
 		 */
-		function filter_elements(base, active_filters) {
+		function filterElements(base, activeFilters) {
 
 			// Restructure the function to either operate on one filter at a time, or all passed filters. Latter would be easier.
 			/* TODO: Need to change or provide option on how to handle
 			   Elements (with multifilters on) which DO NOT use ALL active filter attributes. obv. empty values
 			   e.g. data-filter-test = "" still count.
-			   Something like strict_multimatch or something.
+			   Something like strictMultimatch or something.
 			 */
 			
-			var filter_all_elements = get_elements_to_filter(base, active_filters),
-				filter_matched_elements = [],
-				filter_unmatched_elements = [];
+			var filterAllElements = getElementsToFilter(base, activeFilters),
+				filterMatchedElements = [],
+				filterUnmatchedElements = [];
 				
 			// Okay. Let's determine which elements were matched.
 				
 			// Sort out the returned elements into matched or unmatched.
-			filter_all_elements.each(function () {
+			filterAllElements.each(function () {
 
 				var element = this,
-					perfect_match = true,
+					perfectMatch = true,
 					// TODO: Has to be a better way of doing this!
-					element_values = {},
-					filters_matched = {};
+					elementValues = {},
+					filtersMatched = {};
 					
-				$.each(active_filters, function (active_filter_name, active_filter) {
-					if (!!get_filter_value_from_obj(active_filter)) {
-						filters_matched[active_filter_name] = false;
+				$.each(activeFilters, function (activeFilterName, activeFilter) {
+					if (!!getFilterValueFromObj(activeFilter)) {
+						filtersMatched[activeFilterName] = false;
 						// TODO: Potentially add option to allow or disallow multiple values?
-						element_values[active_filter_name] = element.attributes[options.target_prefix + active_filter_name].value.split(options.value_separator);
+						elementValues[activeFilterName] = element.attributes[options.targetPrefix + activeFilterName].value.split(options.valueSeparator);
 					}
 							
 				});
 				
 				// Okay. Let's loop through the element's values and see if they match up.
-				$.each(element_values, function (active_filter_name, element_filter_values) {
+				$.each(elementValues, function (activeFilterName, elementFilterValues) {
 
-					var active_filter_value,
-						active_filter_type;
+					var activeFilterValue,
+						activeFilterType;
 						
 					// No point in even trying if no values exist.
-					if (!!element_filter_values.length) {
+					if (!!elementFilterValues.length) {
 							
-						active_filter_value = active_filters[active_filter_name][internal_options.active_filter_keys.filter_value];
-						active_filter_type = active_filters[active_filter_name][internal_options.active_filter_keys.filter_type];
+						activeFilterValue = activeFilters[activeFilterName][internalOptions.activeFilterKeys.filterValue];
+						activeFilterType = activeFilters[activeFilteName][internalOptions.activeFilterKeys.filterType];
 							
-						$.each(element_filter_values, function (key, element_filter_value) {
+						$.each(elementFilterValues, function (key, elementFilterValue) {
 	
 							// Has it already been matched?
-							if (filters_matched[active_filter_name]) {
+							if (filtersMatched[activeFilterName]) {
 	
 								return;
 									
@@ -372,21 +372,21 @@
 									
 								// Does it match? Match sequence time! Yaay!
 									
-								if (active_filter_type === internal_options.filter_types.exact) {
+								if (activeFilterType === internalOptions.filterTypes.exact) {
 										
 									// Exact Match
 										
-									if (element_filter_value === active_filter_value) {
-										filters_matched[active_filter_name] = true;
+									if (elementFilterValue === activeFilterValue) {
+										filtersMatched[activeFilterName] = true;
 										return;
 									}
 									
-								} else if (active_filter_type === internal_options.filter_types.partial) {
+								} else if (activeFilterType === internalOptions.filterTypes.partial) {
 										
 									// Partial Match
 									// TODO: Add options support for regex flag?
-									if (!!element_filter_value.match(new RegExp(active_filter_value, options.partial_match_flags))) {
-										filters_matched[active_filter_name] = true;
+									if (!!elementFilterValue.match(new RegExp(activeFilterValue, options.partialMatchFlags))) {
+										filtersMatched[activeFilterName] = true;
 										return;
 									}
 										
@@ -399,22 +399,22 @@
 				});
 
 				// Right. Do we have matching values?
-				$.each(filters_matched, function (matched_filter_name, filter_matched_elements) {
-					if (!filter_matched_elements) {
-						perfect_match = false;
+				$.each(filtersMatched, function (matchedFilterName, filterMatchedElements) {
+					if (!filterMatchedElements) {
+						perfectMatch = false;
 					}
 				});
 					
-				if (perfect_match) {
-					filter_matched_elements.push(element);
+				if (perfectMatch) {
+					filterMatchedElements.push(element);
 				} else {
-					filter_unmatched_elements.push(element);
+					filterUnmatchedElements.push(element);
 				}
 					
 			});
 				
 			// Time for our callback!
-			options.results_callback(filter_matched_elements, filter_unmatched_elements, filter_all_elements, active_filters);
+			options.resultsCallback(filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters);
 		}
 		
 		// We don't know what people are passing through here.
@@ -422,7 +422,7 @@
 			
 			// Setup base variables.
 			var base = $(this),
-				active_filters = {};
+				activeFilters = {};
 				
 			// This plugin uses the element it is called on as it's base.
 			
@@ -430,19 +430,19 @@
 				
 				
 				// Sort out the active filters
-				active_filters = update_filter(active_filters, this);
+				activeFilters = updateFilter(activeFilters, this);
 				
 				// Apply filters.
-				filter_elements(base, active_filters);
+				filterElements(base, activeFilters);
 				
 			});
 					
-			if (options.check_on_start) {
+			if (options.checkOnStart) {
 				// Let's not be lazy and just trigger a change event. We don't know if other hooks are tied to the inputs too.
 				base.find('[' + options.prefix + ']').each(function () {
-					active_filters = update_filter(active_filters, this);
+					activeFilters = updateFilter(activeFilters, this);
 				});
-				filter_elements(base, active_filters);
+				filterElements(base, activeFilters);
 			}
 			
 		});
