@@ -136,6 +136,7 @@
 			 * Some do, though. For example, you can change the reference alias of a filter type by changing it's value in filterTypes.
 			 * If you change the key though, be prepared for things to break.
 			 */
+			// TODO: Move internal options into parent scope. change filters to reflect new system.
 			internalOptions = {
 				filterTypes : {	// Key : setting.
 					'exact' : 'exact',
@@ -384,7 +385,6 @@
 								} else if (activeFilterType === internalOptions.filterTypes.partial) {
 										
 									// Partial Match
-									// TODO: Add options support for regex flag?
 									if (!!elementFilterValue.match(new RegExp(activeFilterValue, options.partialMatchFlags))) {
 										filtersMatched[activeFilterName] = true;
 										return;
@@ -453,7 +453,6 @@
 	};
 	
 	// filterMe Extension Kit.
-	// P.s. We're using CamelCase here for the public methods to follow suit with jQuery. Will convert it all at some point.
 	$.extend({
 		/**
 		 * Provides an easy-to-use API to extend on (+|/) interact with filterMe.
@@ -469,6 +468,9 @@
     		actions = {
     			/**
     			 * addFilter - Adds a filter to the filterMe library.
+    			 * 
+    			 * If addFilter is called AFTER a filterMe object has been instantiated, it will NOT detect the new filter.
+    			 * However, all subsequent calls after the addFilter action will.
     			 * 
     			 * @since 0.4 (Beaver)
     			 * 
@@ -487,5 +489,28 @@
     		
     	}	
     });
+	
+	// Now that we're done. Let's add the core filters.
+	$.filterMe('addFilter', {
+		'name' : 'exact',
+		'filter' : function(filterValue, elementValue, element) {
+			if(filterValue === elementValue) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	});
+	
+	$.filterMe('addFilter', {
+		'name' : 'partial',
+		'filter' : function(filterValue, elementValue, element) {
+			if (elementValue.match(new RegExp(filterValue, 'i'))) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	})
 	
 }(jQuery));
