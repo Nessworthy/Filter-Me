@@ -476,7 +476,7 @@
     			 * 
     			 * @param {object} options The object which handles the filter. Check the documentation for more info.
     			 */
-    			addFilter : function(options) {
+    			addFilters : function(options) {
     				
     			}
     		}
@@ -491,26 +491,21 @@
     });
 	
 	// Now that we're done. Let's add the core filters.
-	$.filterMe('addFilter', {
-		'name' : 'exact',
-		'filter' : function(filterValue, elementValue, element) {
+	$.filterMe('addFilters', {
+		'exact' : function(filterValue, elementValue, element) {
 			if(filterValue === elementValue) {
 				return true;
 			} else {
 				return false;
 			}
-		}
-	});
-	
-	$.filterMe('addFilter', {
-		'name' : 'partial',
-		'filter' : function(filterValue, elementValue, element) {
+		},
+		'partial' : function(filterValue, elementValue, element) {
 			if (elementValue.match(new RegExp(filterValue, 'i'))) {
 				return true;
 			} else {
 				return false;
 			}
 		}
-	})
+	});
 	
 }(jQuery));
