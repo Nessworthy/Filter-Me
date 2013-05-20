@@ -5,7 +5,7 @@
  * https://github.com/Nessworthy/Filter-Me
  * 
  * @author Sean Nessworthy
- * @version 0.3 (Guinea Pig)
+ * @version 0.4 (Beaver) (IN DEVELOPMENT, UNSTABLE)
  * @requires jQuery
  * 
  * @param args The arguments used to configure / tailor your filter. See the documentation for more info.
