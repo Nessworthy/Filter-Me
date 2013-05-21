@@ -11,7 +11,13 @@
  * @param args The arguments used to configure / tailor your filter. See the documentation for more info.
  */
 (function ($) {
+	
     "use strict";
+    
+    var globalOptions = {
+    	// Guess what goes in here?
+    	filterTypes : {}
+    }
     
 	$.fn.filterMe = function (args) {
 
@@ -371,26 +377,20 @@
 									
 							} else {
 									
-								// Does it match? Match sequence time! Yaay!
+								// Does it match?
+								if(typeof globalOptions.filterTypes[activeFilterName] === 'function') {
 									
-								if (activeFilterType === internalOptions.filterTypes.exact) {
-										
-									// Exact Match
-										
-									if (elementFilterValue === activeFilterValue) {
+									// Run it through our filter type.
+									if(globalOptions.filterTypes[activeFilterName](activeFilterValue, elementFilterValue, element) === true) {
 										filtersMatched[activeFilterName] = true;
-										return;
 									}
 									
-								} else if (activeFilterType === internalOptions.filterTypes.partial) {
-										
-									// Partial Match
-									if (!!elementFilterValue.match(new RegExp(activeFilterValue, options.partialMatchFlags))) {
-										filtersMatched[activeFilterName] = true;
-										return;
-									}
-										
+									// TODO: If false, filter failed. If anything else, unexpected.
+									
 								}
+								
+								// TODO: Else, filter type doesn't exist.
+								
 							}
 								
 						});
@@ -472,12 +472,18 @@
     			 * If addFilter is called AFTER a filterMe object has been instantiated, it will NOT detect the new filter.
     			 * However, all subsequent calls after the addFilter action will.
     			 * 
+    			 * options is expected to be an object with keys being the filter name, and the value being a function.
+    			 * The function is passed the filter value, the value of the element, and the element itself.
+    			 * Finally, the function is expected to return a boolean. If the filter 'matches' the element, it should return TRUE.
+    			 * 
+    			 * Note: If a filter name already exists, this function will overwrite it without warning.
+    			 * 
     			 * @since 0.4 (Beaver)
     			 * 
-    			 * @param {object} options The object which handles the filter. Check the documentation for more info.
+    			 * @param {object} options The object which handles the filter. See above or check the documentation for more info.
     			 */
     			addFilters : function(options) {
-    				
+    				$.extend(globalOptions.filterTypes[options], options);
     			}
     		}
     		
@@ -492,6 +498,7 @@
 	
 	// Now that we're done. Let's add the core filters.
 	$.filterMe('addFilters', {
+		// Exact matching. Does exactly what it says.
 		'exact' : function(filterValue, elementValue, element) {
 			if(filterValue === elementValue) {
 				return true;
@@ -499,6 +506,7 @@
 				return false;
 			}
 		},
+		// Partial (caps-ignorant) matching.
 		'partial' : function(filterValue, elementValue, element) {
 			if (elementValue.match(new RegExp(filterValue, 'i'))) {
 				return true;
