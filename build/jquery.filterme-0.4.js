@@ -381,15 +381,24 @@
 								if(typeof globalOptions.filterTypes[activeFilterName] === 'function') {
 									
 									// Run it through our filter type.
-									if(globalOptions.filterTypes[activeFilterName](activeFilterValue, elementFilterValue, element) === true) {
-										filtersMatched[activeFilterName] = true;
-									}
 									
-									// TODO: If false, filter failed. If anything else, unexpected.
+									filterResult = globalOptions.filterTypes[activeFilterName](activeFilterValue, elementFilterValue, element);
+									
+									if(filterResult === true) {
+										filtersMatched[activeFilterName] = true;
+									} else if (filterResult === false) {
+										// ...
+									} else {
+										if(!!console) {
+											console.warning('[FilterMe] The filter called "' + activeFilterName + '" gave me an unexpeted response: ', filterResult);
+										}
+									}
 									
 								}
 								
-								// TODO: Else, filter type doesn't exist.
+								if(!!console) {
+									console.warning('[FilterMe] There\'s no filter called "' + activeFilterName + '" that I can find.');
+								}
 								
 							}
 								
