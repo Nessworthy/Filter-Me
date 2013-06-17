@@ -34,6 +34,7 @@ Due to the early stages of this library, there are only two filter types availab
 * `TODO` Dynamic processing - If off, do all processing at start (finding all elements). if on, do it on each trigger
 * `TODO` Filter check option (on change, on keypress, etc.)
 * `INDEV` Accept a string as a callback argument, will fire out a jQuery event instead of just calling the function.
+* Options now extended after decleration, so code hinters play nicely with those wishing to extend!
 
 ###0.3 Guinea Pig `stable`
 * Filter code rewritten for performance and usability.
