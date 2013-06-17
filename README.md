@@ -33,7 +33,7 @@ Due to the early stages of this library, there are only two filter types availab
 * `INDEV` Turn filter type checking into callable functions with allowable overrides.
 * `TODO` Dynamic processing - If off, do all processing at start (finding all elements). if on, do it on each trigger
 * `TODO` Filter check option (on change, on keypress, etc.)
-* `INDEV` Accept a string as a callback argument, will fire out a jQuery event instead of just calling the function.
+* Callbacks now accept a string, and will trigger a jQuery event instead of calling a function.
 
 ###0.3 Guinea Pig `stable`
 * Filter code rewritten for performance and usability.

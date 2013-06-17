@@ -272,6 +272,7 @@
 			}
 			
 		}
+		
 		/**
 		 * Triggers the callback after all filters have been updated.
 		 * 
