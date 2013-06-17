@@ -136,18 +136,14 @@
 			 */
 			'filterCallback' : function (newFilterName, oldFilters, newFilters) {}
 		}, args),
+		
 			/**
 			 * Internal options do not really have any use outside of the plugin's inner workings (duh).
 			 * 
 			 * Some do, though. For example, you can change the reference alias of a filter type by changing it's value in filterTypes.
 			 * If you change the key though, be prepared for things to break.
 			 */
-			// TODO: Move internal options into parent scope. change filters to reflect new system.
 			internalOptions = {
-				filterTypes : {	// Key : setting.
-					'exact' : 'exact',
-					'partial' : 'partial'
-				},
 				activeFilterKeys : { // Mainly for reference only. Just as long as these keys remain unique to one another.
 					'filterValue' : 'value',
 					'filterType' : 'type'
@@ -247,9 +243,34 @@
 		}
 
 		/**
+		 * Triggers the callback after all filters have been updated.
+		 * 
+		 * @since 0.4 (Beaver)
+		 * @param {object} filterElementToApply The HTML node or jQuery object which defines the filter in the DOM.
+		 * @param {object} currentFilters The internal object containing the previously active filters.
+		 * @param {object} newFilters The internal object containing the currently active filters.
+		 * @return {mixed} The result of the callback. Currently does nothing.
+		 */
+		function triggerFilterCallback(filterElementToApply, currentFilters, newFilters) {
+			
+			var callbackType = typeof options.filterCallback;
+			
+			if(callbackType === 'function') {
+				
+				return options.filterCallback(filterElementToApply, currentFilters, newFilters);
+				
+			} else if (callbackType === 'string') {
+				
+				return $(base).trigger(options.filterCallback, [filterElementToApply, currentFilters, newFilters]);
+				
+			}
+			
+		}
+
+		/**
 		 * Updates the given filter object by applying the new filter to it.
 		 * In the case where multi-options is disabled, this will replace the previous filter.
-		 * Fires the filterCallback function.
+		 * Fires triggerFilterCallback.
 		 * 
 		 * @since 0.3 (Guinea Pig)
 		 * 
@@ -284,12 +305,11 @@
 			// If we're still here, reset/register the filter.
 			newFilters[filterName] = {};
 
-			// TODO: Needs toning down.
 			newFilters[filterName][internalOptions.activeFilterKeys.filterValue] = filterValue;
 			newFilters[filterName][internalOptions.activeFilterKeys.filterType] = filterType;
 
 			// Trigger callback
-			options.filterCallback(filterElementToApply, currentFilters, newFilters);
+			triggerFilterCallback(filterElementToApply, currentFilters, newFilters);
 
 			return newFilters;
 		}
