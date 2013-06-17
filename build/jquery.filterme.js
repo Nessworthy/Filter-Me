@@ -245,11 +245,38 @@
 		function getFilterValueFromObj(object) {
 			return object[internalOptions.activeFilterKeys.filterValue];
 		}
-
+		
+		/**
+		 * Triggers the callback which returns the filter results.
+		 * 
+		 * @since 0.4 (Beaver)
+		 * 
+		 * @param {object} filterMatchedElements A jQuery object containing all elements that matched the filters.
+		 * @param {object} filterUnmatchedElements A jQuery object containing all elements which did not match the filters.
+		 * @param {object} filterAllElements A jQuery object containing all elements that were checked against the filters.
+		 * @param {object} activeFilters A SimpleObject containing the currently active filters.
+		 * @return {mixed} The result of the callback. Currently does nothing.
+		 */
+		function triggerResultsCallback(filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters) {
+			
+			var callbackType = typeof options.resultsCallback;
+			
+			if(callbackType === 'function') {
+				
+				return options.resultsCallback(filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters);
+				
+			} else if (callbackType === 'string') {
+				
+				return $(base).trigger(options.resultsCallback, [filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters]);
+				
+			}
+			
+		}
 		/**
 		 * Triggers the callback after all filters have been updated.
 		 * 
 		 * @since 0.4 (Beaver)
+		 * 
 		 * @param {object} filterElementToApply The HTML node or jQuery object which defines the filter in the DOM.
 		 * @param {object} currentFilters The internal object containing the previously active filters.
 		 * @param {object} newFilters The internal object containing the currently active filters.
@@ -447,8 +474,8 @@
 			});
 				
 			// Time for our callback!
-			options.resultsCallback(filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters);
-		}
+			triggerResultsCallback(filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters);
+		};
 		
 		// Extend the options with the arguments passed.
 		options = $.extend(options, args);
