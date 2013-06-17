@@ -22,7 +22,7 @@
 	$.fn.filterMe = function (args) {
 
 		// Setup base options.
-		var options = $.extend({
+		var options = {
 			/**
 			 * prefix (string): The attribute used to mark an element as a filter selector.
 			 * 
@@ -135,7 +135,7 @@
 			 * e.g. function (newFilterName, oldFilters, newFilters) { ... }
 			 */
 			'filterCallback' : function (newFilterName, oldFilters, newFilters) {}
-		}, args),
+		},
 		
 			/**
 			 * Internal options do not really have any use outside of the plugin's inner workings (duh).
@@ -445,6 +445,9 @@
 			// Time for our callback!
 			options.resultsCallback(filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters);
 		}
+		
+		// Extend the options with the arguments passed.
+		options = $.extend(options, args);
 		
 		// We don't know what people are passing through here.
 		this.each(function () {
