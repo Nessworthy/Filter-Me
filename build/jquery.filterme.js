@@ -114,7 +114,7 @@
 			'partialMatchFlags' : 'i',
 			
 			/**
-			 * resultsCallback (function): The callback function fired after all filters have been applied.
+			 * resultsCallback (function|string): The callback function fired after all filters have been applied.
 			 * 
 			 * The function is supplied four arguments: All MATCHED elements, all UNMATCHED elements, all FOUND elements, and all active filters.
 			 * This is the prawns to your salad. You need to define a function here or filterMe is pretty much useless.
@@ -122,15 +122,19 @@
 			 * Either a filtered element is matched or unmatched. For either, it will appear in all found elements.
 			 * Please take into account that this function is irrespective of any other states that those elements are in e.g. animation.
 			 * 
+			 * As of 0.4 (Beaver), you may pass a string as an argument instead, and FilterMe will trigger that event on the base element, passing the four arguments along with it.
+			 * 
 			 * e.g. function (filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters) { ... }
 			 */
 			'resultsCallback' : function (filterMatchedElements, filterUnmatchedElements, filterAllElements, activeFilters) {},
 			
 			/**
-			 * filterCallback' (function): The callback function fired after the filters have been updated.
+			 * filterCallback' (function|string): The callback function fired after the filters have been updated.
 			 * 
 			 * The function is supplied three arguments: The triggered filter name, the active filters BEFORE the filter was applied, the final active filters object.
 			 * If multi-filters is disabled, this will still return the last filter used.
+			 * 
+			 * As of 0.4 (Beaver), you may pass a string as an argument instead, and FilterMe will trigger that event on the base element, passing the three arguments along with it.
 			 * 
 			 * e.g. function (newFilterName, oldFilters, newFilters) { ... }
 			 */
